@@ -6,6 +6,9 @@ targets:
     deploymentTarget: &deployment_target "16.0"
     info:
       path: ShoppingList/Info.plist
+      properties:
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UILaunchStoryboardName: LaunchScreen
     sources:
          - ShoppingList
     settings:
