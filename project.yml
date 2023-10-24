@@ -26,6 +26,9 @@ targets:
          PRODUCT_NAME: "$(TARGET_NAME)"
     options:
         developmentLanguage: ja
+    dependencies:
+        - package: Realm
+          product: RealmSwift
         
   ShoppingListTests:
       type: bundle.unit-test
