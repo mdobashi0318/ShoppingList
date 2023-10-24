@@ -9,6 +9,10 @@ targets:
       properties:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         UILaunchStoryboardName: LaunchScreen
+    entitlements:
+      path: ShoppingList/ShoppingList.entitlements
+      properties:
+        com.apple.security.application-groups: group.ShoppingList
     sources:
          - ShoppingList
     settings:
