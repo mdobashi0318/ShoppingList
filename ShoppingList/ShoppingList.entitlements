@@ -3,6 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>com.apple.security.application-groups</key>
-	<string>group.masaharu.dobashi.ShoppingList</string>
+	<array>
+		<string>group.masaharu.dobashi.ShoppingList</string>
+	</array>
 </dict>
 </plist>

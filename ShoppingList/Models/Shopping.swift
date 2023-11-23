@@ -84,7 +84,7 @@ class Shopping: Object, Identifiable, RealmProtocol {
         }
         
         do {
-            var model = try Shopping.fetch(id: id)
+            let model = try Shopping.fetch(id: id)
             try realm.write {
                 model.purchased = status ? PurchaseStatus.purchased.rawValue : PurchaseStatus.unPurchased.rawValue
             }

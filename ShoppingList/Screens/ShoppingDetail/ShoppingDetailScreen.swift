@@ -16,18 +16,9 @@ struct ShoppingDetailScreen: View {
     var body: some View {
         Form {
             Section {
-                HStack {
-                    Text("商品")
-                    Spacer()
-                    Text(viewModel.item.name)
-                }
-                
-                HStack {
-                    Text("金額")
-                    Spacer()
-                    Text("¥\(viewModel.item.price)")
-                }
-                
+                ItemDetailView(name: viewModel.item.name,
+                               price: viewModel.item.price
+                )
                 
                 
                 HStack {

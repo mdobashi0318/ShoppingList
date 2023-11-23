@@ -17,14 +17,9 @@ struct AddShoppingScreen: View {
         NavigationStack {
             Form {
                     Section {
-                        HStack {
-                            TextField("商品名を入力してください", text: $viewModel.name)
-                        }
-                        
-                        HStack {
-                            TextField("金額を入力してください", text: $viewModel.price)
-                                .keyboardType(.numberPad)
-                        }
+                        ItemAddFormView(name: $viewModel.name,
+                                        price: $viewModel.price
+                        )
             
                         Toggle(isOn: $viewModel.inputItem, label: {
                             Text("登録済の商品から選ぶ")
@@ -57,12 +52,10 @@ struct AddShoppingScreen: View {
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     AddButton {
-                        
                         if viewModel.validation() {
                             viewModel.add()
                             self.dismiss()
                         }
-                        
                     }
                 }
             }

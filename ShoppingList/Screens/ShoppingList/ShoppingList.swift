@@ -42,23 +42,25 @@ struct ShoppingList: View {
     
     
     var body: some View {
-        list
-            .toolbar {
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    AddButton {
-                        addPageSheet.toggle()
+        NavigationStack {
+            list
+                .toolbar {
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        AddButton {
+                            addPageSheet.toggle()
+                        }
                     }
                 }
-            }
-            .sheet(isPresented: $addPageSheet) {
-                AddShoppingScreen()
-            }
-            .task(id: addPageSheet) {
-                if !addPageSheet {
-                    viewModel.fetchModels()
+                .sheet(isPresented: $addPageSheet) {
+                    AddShoppingScreen()
                 }
-            }
-            
+                .task(id: addPageSheet) {
+                    if !addPageSheet {
+                        viewModel.fetchModels()
+                    }
+                }
+                .navigationTitle("ShoppingList")
+        }
     }
 }
 
