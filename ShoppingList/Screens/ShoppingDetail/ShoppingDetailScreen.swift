@@ -11,7 +11,11 @@ struct ShoppingDetailScreen: View {
     
     @StateObject var viewModel: ShoppingDetailViewModel
     
+    @Environment(\.dismiss) var dismiss
     
+    @State var isActionSheet = false
+    
+    @State var isEditScreen = false
     
     var body: some View {
         Form {
@@ -41,7 +45,23 @@ struct ShoppingDetailScreen: View {
             viewModel.updatePurchaseStatus()
         }
         .navigationTitle("購入内容")
-        
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                EllipsisButton(action: { isActionSheet.toggle() })
+            }
+        }
+        .confirmationDialog("どうしますか？", isPresented: $isActionSheet) {
+            Button("編集") {
+                isEditScreen.toggle()
+            }
+            Button("削除", role: .destructive) {
+                viewModel.delete()
+                self.dismiss()
+            }
+        }
+        .sheet(isPresented: $isEditScreen) {
+            AddShoppingScreen(viewModel: AddShoppingViewModel(shoppingId: viewModel.id))
+        }
     }
 }
 

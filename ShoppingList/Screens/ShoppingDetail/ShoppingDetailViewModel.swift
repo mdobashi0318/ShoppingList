@@ -50,5 +50,15 @@ class ShoppingDetailViewModel: ObservableObject {
     }
     
     
+    func delete() {
+        do {
+            try Shopping.delete(shopping)
+            shopping = Shopping()
+        } catch {
+            errorMessage = "見つかりません"
+        }
+    }
+    
+    
     
 }

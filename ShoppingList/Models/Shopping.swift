@@ -95,7 +95,17 @@ class Shopping: Object, Identifiable, RealmProtocol {
     }
     
     static func delete(_ model: Shopping) throws {
+        guard let realm = RealmManager.realm else {
+            throw ModelError()
+        }
         
+        do {
+            try realm.write {
+                realm.delete(model)
+            }
+        } catch {
+            throw ModelError()
+        }
     }
     
     static func allDetele() throws {
