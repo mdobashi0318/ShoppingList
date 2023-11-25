@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct EllipsisButton: View {
+    
+    var action: () -> Void
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Button(action: {
+             action()
+         }) {
+             Image(systemName: "ellipsis")
+         }
     }
 }
 
 #Preview {
-    EllipsisButton()
+    EllipsisButton(action: { })
 }

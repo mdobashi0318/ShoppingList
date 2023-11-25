@@ -10,6 +10,10 @@ import Combine
 
 class AddShoppingViewModel: ObservableObject {
     
+    var shoppingId: String?
+    
+    private(set) var mode: Mode = .add
+    
     @Published var name: String = ""
     
     @Published var price: String = ""
@@ -28,8 +32,19 @@ class AddShoppingViewModel: ObservableObject {
     
     @Published var inputItem = false
     
-    init() {
+    init(shoppingId: String? = nil) {
         fetchItems()
+        if let shoppingId {
+            mode = .update
+            self.shoppingId = shoppingId
+            guard let shopping = try? Shopping.fetch(id: shoppingId),
+                  let item = try? Item.fetch(id: shopping.itemId) else {
+                return
+            }
+            name = item.name
+            price = String(describing: item.price)
+            count = String(describing: shopping.count)   
+        }
     }
     
     func add() {
@@ -98,7 +113,9 @@ class AddShoppingViewModel: ObservableObject {
         }
     }
     
-
+    enum Mode {
+        case add, update
+    }
     
 }
 
