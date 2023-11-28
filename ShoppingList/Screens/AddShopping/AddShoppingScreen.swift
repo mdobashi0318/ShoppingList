@@ -37,12 +37,15 @@ struct AddShoppingScreen: View {
                         if viewModel.mode == .add {
                             if viewModel.validation() {
                                 viewModel.add()
-                                self.dismiss()
-                            } else {
-                                // TODO: 更新処理
+                            }
+                        } else {
+                            if viewModel.validation() {
+                                viewModel.update()
                             }
                         }
-                        
+                        if !viewModel.errorFlag {
+                            self.dismiss()
+                        }
                     }
                 }
             }

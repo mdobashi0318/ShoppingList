@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 
 class AddShoppingViewModel: ObservableObject {
     
@@ -43,7 +42,8 @@ class AddShoppingViewModel: ObservableObject {
             }
             name = item.name
             price = String(describing: item.price)
-            count = String(describing: shopping.count)   
+            count = String(describing: shopping.count)
+            itemId = shopping.itemId
         }
     }
     
@@ -55,7 +55,8 @@ class AddShoppingViewModel: ObservableObject {
             
             try Shopping.add(Shopping(itemId: itemId, count: count, purchased: PurchaseStatus.unPurchased.rawValue))
         } catch {
-            print(error.localizedDescription)
+            errorMessage = "追加に失敗しました"
+            errorFlag = true
         }
         
         
@@ -102,6 +103,19 @@ class AddShoppingViewModel: ObservableObject {
     
     
     
+    func update() {
+        guard let shoppingId else {
+            return
+        }
+        
+        do {
+            try Shopping.update(Shopping(id: shoppingId, count: Int(count) ?? 0))
+        } catch {
+            errorMessage = "更新に失敗しました"
+            errorFlag = true
+        }
+    }
+    
     private func fetchItems() {
         do {
             model.append(Item())
@@ -110,6 +124,7 @@ class AddShoppingViewModel: ObservableObject {
             }
         } catch {
             errorMessage = "見つかりません"
+            errorFlag = true
         }
     }
     

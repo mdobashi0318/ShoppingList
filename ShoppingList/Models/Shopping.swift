@@ -36,6 +36,11 @@ class Shopping: Object, Identifiable, RealmProtocol {
         self.purchased = purchased
     }
     
+    init(id: String, count: Int) {
+        self.id = id
+        self.count = count
+    }
+    
     static func allFetch() throws -> [Shopping] {
         guard let realm = RealmManager.realm else {
             throw ModelError()
@@ -74,7 +79,18 @@ class Shopping: Object, Identifiable, RealmProtocol {
     }
     
     static func update(_ model: Shopping) throws {
+        guard let realm = RealmManager.realm else {
+            throw ModelError()
+        }
         
+        do {
+            let update = try Shopping.fetch(id: model.id)    
+            try realm.write {
+                update.count = model.count
+            }
+        } catch {
+            throw ModelError()
+        }
     }
     
     

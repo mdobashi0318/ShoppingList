@@ -26,7 +26,7 @@ class ShoppingDetailViewModel: ObservableObject {
         fetchItem()
     }
     
-    private func fetchShopping() {
+    func fetchShopping() {
         do {
             shopping = try Shopping.fetch(id: id)
             purchased = shopping.purchased == PurchaseStatus.purchased.rawValue ? true : false

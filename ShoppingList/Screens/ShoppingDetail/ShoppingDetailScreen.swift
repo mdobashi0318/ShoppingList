@@ -61,6 +61,9 @@ struct ShoppingDetailScreen: View {
         }
         .sheet(isPresented: $isEditScreen) {
             AddShoppingScreen(viewModel: AddShoppingViewModel(shoppingId: viewModel.id))
+                .onDisappear {
+                    viewModel.fetchShopping()
+                }
         }
     }
 }
