@@ -1,0 +1,46 @@
+//
+//  ShoppingRow.swift
+//  ShoppingList
+//
+//  Created by 土橋正晴 on 2023/11/29.
+//
+
+import SwiftUI
+
+struct ShoppingRow: View {
+    
+    let name: String
+    
+    let count: Int
+    
+    let totalPrice: Int
+        
+    var purchaseStatus: String
+    
+    @State var toggleValue: Bool = false
+    
+    let toggleAction: (Bool) -> Void
+    
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text(name)
+                    Text("\(count)個")
+                }
+                Text("¥\(totalPrice)")
+            }
+            Toggle(isOn: $toggleValue, label: {
+                Text("")
+            })
+        }
+        .onAppear {
+            toggleValue = purchaseStatus == PurchaseStatus.purchased.rawValue
+        }
+        .task(id: toggleValue) {
+            toggleAction(toggleValue)
+        }
+    }
+}
+

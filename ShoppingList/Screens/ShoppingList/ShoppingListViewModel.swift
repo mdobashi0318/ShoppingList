@@ -52,4 +52,8 @@ class ShoppingListViewModel: ObservableObject {
         (fetchItem(itemId: shopping.itemId)?.price ?? 0) * shopping.count
     }
     
+    func updatePurchaseStatus(shoppingId: String, purchased: Bool) {
+        try? Shopping.updatePurchaseStatus(id: shoppingId, status: purchased)
+    }
+    
 }

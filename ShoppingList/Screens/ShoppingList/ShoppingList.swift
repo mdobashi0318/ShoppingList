@@ -22,14 +22,15 @@ struct ShoppingList: View {
             List {
                 ForEach($viewModel.model) { shopping in
                     NavigationLink(value: shopping.id) {
-                        VStack(alignment: .leading) {
-                            HStack {
-                                Text(viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? "見つかりません")
-                                Text("\(shopping.count.wrappedValue)個")
+                        ShoppingRow(
+                            name: viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? "見つかりません",
+                            count: shopping.count.wrappedValue,
+                            totalPrice: viewModel.totalPrice(shopping.wrappedValue),
+                            purchaseStatus: shopping.purchased.wrappedValue,
+                            toggleAction: {
+                                viewModel.updatePurchaseStatus(shoppingId: shopping.id, purchased: $0)
                             }
-                            Text("¥\(viewModel.totalPrice(shopping.wrappedValue))")
-                            Text(shopping.purchased.wrappedValue == PurchaseStatus.purchased.rawValue ? "購入済" : "未購入")
-                        }
+                        )
                     }
                 }
             }
