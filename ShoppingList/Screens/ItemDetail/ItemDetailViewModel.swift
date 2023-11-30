@@ -14,14 +14,24 @@ class ItemDetailViewModel: ObservableObject {
     
     @Published var model = Item()
     
+    @Published var errorFlag = false
+    
+    var errorMessage = ""
+    
     init(itemId: String) {
         self.itemId = itemId
         fetch()
     }
     
     func fetch() {
-        model = try! Item.fetch(id: itemId)
+        do {
+            model = try Item.fetch(id: itemId)
+        } catch {
+            errorMessage = "見つかりません"
+        }
     }
+    
+    func delete() { }
     
     
 }

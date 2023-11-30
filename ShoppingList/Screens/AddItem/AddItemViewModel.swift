@@ -10,14 +10,22 @@ import Foundation
 
 class AddItemViewModel: ObservableObject {
     
+    @Published var itemId: String?
+    
     @Published var name: String = ""
     
     @Published var price: String = ""
     
-    
     @Published var errorFlag = false
     
     var errorMessage = ""
+    
+    init(itemId: String? = nil) {
+        if let itemId {
+            self.itemId = itemId
+            fetch()
+        }
+    }
     
     func validation() -> Bool {
         if name.isEmpty {
@@ -32,6 +40,19 @@ class AddItemViewModel: ObservableObject {
         
         errorFlag = false
         return true
+    }
+    
+    func fetch() {
+        do {
+            guard let itemId else {
+                throw ModelError()
+            }
+            let model = try Item.fetch(id: itemId)
+            name = model.name
+            price = String(model.price)
+        } catch {
+            errorMessage = "見つかりません"
+        }
     }
     
     func add() { }

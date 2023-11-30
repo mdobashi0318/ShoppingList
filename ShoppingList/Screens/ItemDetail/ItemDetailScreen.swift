@@ -11,6 +11,12 @@ struct ItemDetailScreen: View {
     
     @StateObject var viewModel: ItemDetailViewModel
     
+    @Environment(\.dismiss) var dismiss
+    
+    @State var isActionSheet = false
+    
+    @State var isEditScreen = false
+    
     var body: some View {
         Form {
             ItemDetailView(name: viewModel.model.name,
@@ -18,6 +24,27 @@ struct ItemDetailScreen: View {
             )
         }
         .navigationTitle("アイテム追加")
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                EllipsisButton(action: { isActionSheet.toggle() })
+            }
+        }
+        .confirmationDialog("どうしますか？", isPresented: $isActionSheet) {
+            Button("編集") {
+                isEditScreen.toggle()
+            }
+            Button("削除", role: .destructive) {
+                viewModel.delete()
+                self.dismiss()
+            }
+        }
+        .sheet(isPresented: $isEditScreen) {
+            AddItemScreen(viewModel: AddItemViewModel(itemId: viewModel.itemId))
+                .onDisappear {
+                    viewModel.fetch()
+                }
+        }
+
     }
 }
 
