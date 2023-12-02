@@ -28,6 +28,7 @@ class ItemDetailViewModel: ObservableObject {
             model = try Item.fetch(id: itemId)
         } catch {
             errorMessage = "見つかりません"
+            errorFlag = true
         }
     }
     

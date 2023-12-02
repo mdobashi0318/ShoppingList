@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+@MainActor
 class AddItemViewModel: ObservableObject {
     
     @Published var itemId: String?
@@ -42,16 +42,24 @@ class AddItemViewModel: ObservableObject {
         return true
     }
     
-    func fetch() {
+    
+    private func fetch() {
         do {
             guard let itemId else {
                 throw ModelError()
             }
+            
             let model = try Item.fetch(id: itemId)
             name = model.name
             price = String(model.price)
         } catch {
-            errorMessage = "見つかりません"
+            Task {
+                /// この時点でシートが表示されてないためか、アラートが表示されないため表示フラグを変更するタイミングを遅らせる
+                try await Task.sleep(until: .now + .seconds(0.1))
+                errorMessage = "見つかりません"
+                errorFlag = true
+            }
+            
         }
     }
     

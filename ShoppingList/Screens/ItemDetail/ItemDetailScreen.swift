@@ -44,6 +44,9 @@ struct ItemDetailScreen: View {
                     viewModel.fetch()
                 }
         }
+        .alert(isPresented: $viewModel.errorFlag) {
+            Alert(title: Text(viewModel.errorMessage), dismissButton: .default(Text("閉じる")))
+        }
 
     }
 }

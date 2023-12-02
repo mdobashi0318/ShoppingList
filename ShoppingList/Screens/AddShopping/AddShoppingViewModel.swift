@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class AddShoppingViewModel: ObservableObject {
     
     var shoppingId: String?
@@ -33,17 +34,30 @@ class AddShoppingViewModel: ObservableObject {
     
     init(shoppingId: String? = nil) {
         fetchItems()
-        if let shoppingId {
-            mode = .update
+        fetchShopping(shoppingId)
+    }
+    
+    private func fetchShopping(_ shoppingId: String?) {
+        guard let shoppingId else {
+            return
+        }
+        
+        do {
             self.shoppingId = shoppingId
-            guard let shopping = try? Shopping.fetch(id: shoppingId),
-                  let item = try? Item.fetch(id: shopping.itemId) else {
-                return
-            }
+            mode = .update
+            let shopping = try Shopping.fetch(id: shoppingId)
+            let item = try Item.fetch(id: shopping.itemId)
             name = item.name
             price = String(describing: item.price)
             count = String(describing: shopping.count)
             itemId = shopping.itemId
+        } catch {
+            Task {
+                /// この時点でシートが表示されてないためか、アラートが表示されないため表示フラグを変更するタイミングを遅らせる
+                try await Task.sleep(until: .now + .seconds(0.1))
+                errorMessage = "見つかりません"
+                errorFlag = true
+            }
         }
     }
     
@@ -93,11 +107,6 @@ class AddShoppingViewModel: ObservableObject {
                 return false
             }
         }
-        
-        
-        
-   
-        errorFlag = false
         return true
     }
     
