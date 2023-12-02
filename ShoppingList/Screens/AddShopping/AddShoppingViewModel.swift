@@ -32,9 +32,12 @@ class AddShoppingViewModel: ObservableObject {
     
     @Published var inputItem = false
     
-    init(shoppingId: String? = nil) {
+    init(mode: Mode = .add, shoppingId: String? = nil) {
+        self.mode = mode
         fetchItems()
-        fetchShopping(shoppingId)
+        if mode == .update {
+            fetchShopping(shoppingId)
+        }
     }
     
     private func fetchShopping(_ shoppingId: String?) {
@@ -44,7 +47,6 @@ class AddShoppingViewModel: ObservableObject {
         
         do {
             self.shoppingId = shoppingId
-            mode = .update
             let shopping = try Shopping.fetch(id: shoppingId)
             let item = try Item.fetch(id: shopping.itemId)
             name = item.name
