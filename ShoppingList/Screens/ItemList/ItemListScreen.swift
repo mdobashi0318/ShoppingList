@@ -35,6 +35,9 @@ struct ItemListScreen: View {
             }
             .sheet(isPresented: $addItemSheet) {
                 AddItemScreen()
+                    .onDisappear {
+                        viewModel.fetchItems()
+                    }
             }
             .navigationDestination(for: String.self) { itemId in
                 ItemDetailScreen(viewModel: ItemDetailViewModel(itemId: itemId))

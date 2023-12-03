@@ -23,6 +23,12 @@ class Item: Object, Identifiable, RealmProtocol {
         self.price = Int(price) ?? 0
     }
     
+    init(id: String, name: String, price: String) {
+        self.id = id
+        self.name = name
+        self.price = Int(price) ?? 0
+    }
+    
     static func allFetch() throws -> [Item] {
         guard let realm = RealmManager.realm else {
             throw ModelError()
@@ -41,7 +47,21 @@ class Item: Object, Identifiable, RealmProtocol {
         return item
     }
     
-    static func add(_ model: Item) throws { }
+    static func add(_ model: Item) throws { 
+        guard let realm = RealmManager.realm else {
+            throw ModelError()
+        }
+        
+        model.id = UUID().uuidString
+        
+        do {
+            try realm.write {
+                realm.add(model)
+            }
+        } catch {
+            throw ModelError()
+        }
+    }
     
     static func addItem(_ model: Item) throws -> String {
         guard let realm = RealmManager.realm else {
@@ -61,7 +81,19 @@ class Item: Object, Identifiable, RealmProtocol {
     }
     
     static func update(_ model: Item) throws {
+        guard let realm = RealmManager.realm else {
+            throw ModelError()
+        }
         
+        do {
+            let update = try Item.fetch(id: model.id)
+            try realm.write {
+                update.name = model.name
+                update.price = model.price
+            }
+        } catch {
+            throw ModelError()
+        }
     }
     
     static func delete(_ model: Item) throws {

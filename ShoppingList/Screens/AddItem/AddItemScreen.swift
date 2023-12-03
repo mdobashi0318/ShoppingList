@@ -25,14 +25,22 @@ struct AddItemScreen: View {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     AddButton {
                         if viewModel.validation() {
-                            viewModel.add()
-                            self.dismiss()
+                            if viewModel.mode == .add {
+                                viewModel.add()
+                            } else {
+                                viewModel.update()
+                            }
                         }
                     }
                 }
             }
             .alert(isPresented: $viewModel.errorFlag) {
-                Alert(title: Text(viewModel.errorMessage), dismissButton: .default(Text("閉じる")))
+                Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")))
+            }
+            .alert(isPresented: $viewModel.successFlag) {
+                Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")) {
+                    self.dismiss()
+                })
             }
         }
     }

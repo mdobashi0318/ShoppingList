@@ -39,7 +39,9 @@ struct ItemDetailScreen: View {
             }
         }
         .sheet(isPresented: $isEditScreen) {
-            AddItemScreen(viewModel: AddItemViewModel(itemId: viewModel.itemId))
+            AddItemScreen(viewModel: AddItemViewModel(mode: .update,
+                                                      itemId: viewModel.itemId)
+            )
                 .onDisappear {
                     viewModel.fetch()
                 }

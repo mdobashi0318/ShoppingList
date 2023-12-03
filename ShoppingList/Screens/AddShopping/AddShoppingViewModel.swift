@@ -139,9 +139,5 @@ class AddShoppingViewModel: ObservableObject {
         }
     }
     
-    enum Mode {
-        case add, update
-    }
-    
 }
 
