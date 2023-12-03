@@ -15,16 +15,7 @@ struct ItemListScreen: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach($viewModel.model) { item in
-                    NavigationLink(value: item.id) {
-                        VStack {
-                            Text(item.name.wrappedValue)
-                            Text("¥\(item.price.wrappedValue)")
-                        }
-                    }
-                }
-            }
+            itemList
             .navigationTitle("ItemList")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
@@ -41,6 +32,24 @@ struct ItemListScreen: View {
             }
             .navigationDestination(for: String.self) { itemId in
                 ItemDetailScreen(viewModel: ItemDetailViewModel(itemId: itemId))
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var itemList: some View {
+        if viewModel.model.isEmpty {
+            Text("リストにアイテムがありません")
+        } else {
+            List {
+                ForEach($viewModel.model) { item in
+                    NavigationLink(value: item.id) {
+                        VStack {
+                            Text(item.name.wrappedValue)
+                            Text("¥\(item.price.wrappedValue)")
+                        }
+                    }
+                }
             }
         }
     }
