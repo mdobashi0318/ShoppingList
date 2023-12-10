@@ -34,13 +34,17 @@ struct AddItemScreen: View {
                     }
                 }
             }
-            .alert(isPresented: $viewModel.errorFlag) {
-                Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")))
-            }
-            .alert(isPresented: $viewModel.successFlag) {
-                Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")) {
-                    self.dismiss()
-                })
+            .alert(isPresented: $viewModel.alertFlag) {
+                switch viewModel.alertType {
+                case .success:
+                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")) {
+                        self.dismiss()
+                    })
+                case .error:
+                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")))
+                }
+                
+                
             }
         }
     }

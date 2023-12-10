@@ -10,7 +10,7 @@ import Foundation
 @MainActor
 class AddShoppingViewModel: ObservableObject {
     
-    var shoppingId: String?
+    private(set) var shoppingId: String?
     
     private(set) var mode: Mode = .add
     
@@ -19,11 +19,7 @@ class AddShoppingViewModel: ObservableObject {
     @Published var price: String = ""
     
     @Published var count: String = ""
-    
-    @Published var errorFlag = false
-    
-    var errorMessage = ""
-    
+        
     @Published var model: [Item] = []
     
     @Published var select: Item?
@@ -31,6 +27,12 @@ class AddShoppingViewModel: ObservableObject {
     @Published var itemId: String = ""
     
     @Published var inputItem = false
+    
+    @Published var alertFlag = false
+    
+    private(set) var alertType: AlertType = .success
+    
+    private(set) var alertMessage = ""
     
     init(mode: Mode = .add, shoppingId: String? = nil) {
         self.mode = mode
@@ -57,8 +59,7 @@ class AddShoppingViewModel: ObservableObject {
             Task {
                 /// この時点でシートが表示されてないためか、アラートが表示されないため表示フラグを変更するタイミングを遅らせる
                 try await Task.sleep(until: .now + .seconds(0.1))
-                errorMessage = "見つかりません"
-                errorFlag = true
+                setAlert(type: .error, message: "見つかりません")
             }
         }
     }
@@ -70,9 +71,9 @@ class AddShoppingViewModel: ObservableObject {
             }
             
             try Shopping.add(Shopping(itemId: itemId, count: count, purchased: PurchaseStatus.unPurchased.rawValue))
+            setAlert(type: .success, message: "追加しました")
         } catch {
-            errorMessage = "追加に失敗しました"
-            errorFlag = true
+            setAlert(type: .error, message: "追加に失敗しました")
         }
         
         
@@ -84,28 +85,23 @@ class AddShoppingViewModel: ObservableObject {
         
         if inputItem {
             if itemId.isEmpty {
-                errorMessage = "商品が選択されていません"
-                errorFlag = true
+                setAlert(type: .error, message: "商品が選択されていません")
                 return false
             } else if count.isEmpty {
-                errorMessage = "個数が入力されていません"
-                errorFlag = true
+                setAlert(type: .error, message: "個数が入力されていません")
                 return false
             }
 
         } else {
             if name.isEmpty {
-                errorMessage = "商品名が入力されていません"
-                errorFlag = true
+                setAlert(type: .error, message: "商品名が入力されていません")
                 return false
             } else if price.isEmpty {
-                errorMessage = "金額が入力されていません"
-                errorFlag = true
+                setAlert(type: .error, message: "金額が入力されていません")
                 return false
                 
             } else if count.isEmpty {
-                errorMessage = "個数が入力されていません"
-                errorFlag = true
+                setAlert(type: .error, message: "個数が入力されていません")
                 return false
             }
         }
@@ -121,9 +117,9 @@ class AddShoppingViewModel: ObservableObject {
         
         do {
             try Shopping.update(Shopping(id: shoppingId, count: Int(count) ?? 0))
+            setAlert(type: .success, message: "更新しました")
         } catch {
-            errorMessage = "更新に失敗しました"
-            errorFlag = true
+            setAlert(type: .error, message: "更新に失敗しました")
         }
     }
     
@@ -134,9 +130,14 @@ class AddShoppingViewModel: ObservableObject {
                 model.append($0)
             }
         } catch {
-            errorMessage = "見つかりません"
-            errorFlag = true
+            setAlert(type: .error, message: "見つかりません")
         }
+    }
+    
+    private func setAlert(type: AlertType, message: String) {
+        alertType = type
+        alertMessage = message
+        alertFlag = true
     }
     
 }
