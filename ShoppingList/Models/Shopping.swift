@@ -53,6 +53,18 @@ class Shopping: Object, Identifiable, RealmProtocol {
         return model
     }
     
+    static func fetchList(purchaseStatus: PurchaseStatus) throws -> [Shopping] {
+        guard let realm = RealmManager.realm else {
+            throw ModelError()
+        }
+        var model = [Shopping]()
+        
+        realm.objects(Shopping.self).filter("purchased == '\(String(describing: purchaseStatus.rawValue))'").freeze().forEach {
+                model.append($0)
+        }
+        return model
+    }
+    
     static func fetch(id: String) throws -> Shopping {
         guard let realm = RealmManager.realm,
               let shopping = realm.object(ofType: Shopping.self, forPrimaryKey: id) else {

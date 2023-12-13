@@ -15,19 +15,22 @@ class ShoppingListViewModel: ObservableObject {
     
     var errorMessage = ""
     
+    var purchaseStatus: PurchaseStatus
     
-    init() {
+    
+    init(purchaseStatus: PurchaseStatus) {
+        self.purchaseStatus = purchaseStatus
         fetchModels()
     }
     
     func fetchModels() {
-        fetchAll()
+        fetchShopping()
         fetchItems()
     }
     
-    private func fetchAll() {
+    private func fetchShopping() {
         do {
-            model = try Shopping.allFetch()
+            model = try Shopping.fetchList(purchaseStatus: purchaseStatus)
         } catch {
             errorMessage = "見つかりません"
         }

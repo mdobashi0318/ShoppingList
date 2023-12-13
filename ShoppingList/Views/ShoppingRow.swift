@@ -21,6 +21,7 @@ struct ShoppingRow: View {
     
     let toggleAction: (Bool) -> Void
     
+    let isPurchased: Bool
     
     var body: some View {
         HStack {
@@ -31,9 +32,12 @@ struct ShoppingRow: View {
                 }
                 Text("¥\(totalPrice)")
             }
-            Toggle(isOn: $toggleValue, label: {
-                Text("")
-            })
+            
+            if isPurchased {
+                Toggle(isOn: $toggleValue, label: {
+                    Text("")
+                })
+            }
         }
         .onAppear {
             toggleValue = purchaseStatus == PurchaseStatus.purchased.rawValue

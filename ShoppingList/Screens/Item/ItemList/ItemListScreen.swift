@@ -13,26 +13,28 @@ struct ItemListScreen: View {
     
     @State var addItemSheet = false
     
+    let tab: Tabs
+    
     var body: some View {
         NavigationStack {
             itemList
-            .navigationTitle("ItemList")
-            .toolbar {
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    AddButton(action: {
-                        addItemSheet.toggle()
-                    })
-                }
-            }
-            .sheet(isPresented: $addItemSheet) {
-                AddItemScreen()
-                    .onDisappear {
-                        viewModel.fetchItems()
+                .navigationTitle(tab.rawValue)
+                .toolbar {
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        AddButton(action: {
+                            addItemSheet.toggle()
+                        })
                     }
-            }
-            .navigationDestination(for: String.self) { itemId in
-                ItemDetailScreen(viewModel: ItemDetailViewModel(itemId: itemId))
-            }
+                }
+                .sheet(isPresented: $addItemSheet) {
+                    AddItemScreen()
+                        .onDisappear {
+                            viewModel.fetchItems()
+                        }
+                }
+                .navigationDestination(for: String.self) { itemId in
+                    ItemDetailScreen(viewModel: ItemDetailViewModel(itemId: itemId))
+                }
         }
     }
     
@@ -56,5 +58,5 @@ struct ItemListScreen: View {
 }
 
 #Preview {
-    ItemListScreen()
+    ItemListScreen(tab: Tabs.itemList)
 }

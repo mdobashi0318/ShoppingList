@@ -9,33 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var selection = 0
-    
-    
     @State var title = "ShoppingList"
     
     var body: some View {
-        
-            TabView(selection: $selection) {
-                ShoppingList()
-                    .tabItem { Label("List", systemImage: "cart.fill") }
-                    .tag(0)
-                
-                ItemListScreen()
-                    .tabItem { Label("Item", systemImage: "bag.fill") }
-                    .tag(1)
-            }
-            .task(id: selection) {
-                if selection == 0 {
-                    title = "ShoppingList"
-                } else {
-                    title = "ItemList"
-                }
-            }
+        TabView() {
+            ShoppingList(viewModel: ShoppingListViewModel(purchaseStatus: .unPurchased),
+                         tab: Tabs.shoppingList)
+            .tabItem { Label("List", systemImage: "cart") }
             
+            ItemListScreen(tab: Tabs.itemList)
+                .tabItem { Label("Item", systemImage: "bag.fill") }
             
-            
-        
+            ShoppingList(viewModel: ShoppingListViewModel(purchaseStatus: .purchased),
+                         tab: Tabs.purchasedList)
+            .tabItem { Label("List", systemImage: "chineseyuanrenminbisign.circle") }
+        }
     }
 }
 

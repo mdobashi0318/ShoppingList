@@ -9,11 +9,12 @@ import SwiftUI
 
 struct ShoppingList: View {
     
-    @StateObject var viewModel = ShoppingListViewModel()
+    @StateObject var viewModel: ShoppingListViewModel
     
     @State var addPageSheet = false
-
     
+    let tab: Tabs
+
     @ViewBuilder
     var list: some View {
         if viewModel.model.isEmpty {
@@ -29,13 +30,17 @@ struct ShoppingList: View {
                             purchaseStatus: shopping.purchased.wrappedValue,
                             toggleAction: {
                                 viewModel.updatePurchaseStatus(shoppingId: shopping.id, purchased: $0)
-                            }
+                            },
+                            isPurchased: tab == .shoppingList ? true : false
                         )
                     }
                 }
             }
             .navigationDestination(for: String.self) { shoppingId in
                 ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
+            }
+            .onDisappear {
+                viewModel.fetchModels()
             }
         }
         
@@ -60,11 +65,13 @@ struct ShoppingList: View {
                         viewModel.fetchModels()
                     }
                 }
-                .navigationTitle("ShoppingList")
+                .navigationTitle(tab.rawValue)
         }
     }
 }
 
 #Preview {
-    ShoppingList()
+    ShoppingList(viewModel: ShoppingListViewModel(purchaseStatus: .purchased),
+                 tab: Tabs.shoppingList
+    )
 }
