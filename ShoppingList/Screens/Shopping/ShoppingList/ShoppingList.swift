@@ -28,6 +28,7 @@ struct ShoppingList: View {
                             count: shopping.count.wrappedValue,
                             totalPrice: viewModel.totalPrice(shopping.wrappedValue),
                             purchaseStatus: shopping.purchased.wrappedValue,
+                            toggleValue: shopping.purchased.wrappedValue == PurchaseStatus.purchased.rawValue,
                             toggleAction: {
                                 viewModel.updatePurchaseStatus(shoppingId: shopping.id, purchased: $0)
                             },

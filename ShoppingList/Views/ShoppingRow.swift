@@ -17,7 +17,7 @@ struct ShoppingRow: View {
         
     var purchaseStatus: String
     
-    @State var toggleValue: Bool = false
+    @State var toggleValue: Bool
     
     let toggleAction: (Bool) -> Void
     
@@ -33,17 +33,12 @@ struct ShoppingRow: View {
                 Text("¥\(totalPrice)")
             }
             
-            if isPurchased {
-                Toggle(isOn: $toggleValue, label: {
-                    Text("")
-                })
+            Toggle(isOn: $toggleValue, label: {
+                Text("")
+            })
+            .onChange(of: toggleValue) {
+                toggleAction($0)
             }
-        }
-        .onAppear {
-            toggleValue = purchaseStatus == PurchaseStatus.purchased.rawValue
-        }
-        .task(id: toggleValue) {
-            toggleAction(toggleValue)
         }
     }
 }
