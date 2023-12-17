@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ItemListScreen: View {
     
-    @StateObject var viewModel = ItemListViewModel()
+    @StateObject private var viewModel = ItemListViewModel()
     
-    @State var addItemSheet = false
+    @State private var addItemSheet = false
     
-    let tab: Tabs
+    private let tab: Tabs = .itemList
     
     var body: some View {
         NavigationStack {
@@ -58,5 +58,5 @@ struct ItemListScreen: View {
 }
 
 #Preview {
-    ItemListScreen(tab: Tabs.itemList)
+    ItemListScreen()
 }

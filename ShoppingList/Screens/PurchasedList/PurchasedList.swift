@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PurchasedList: View {
     
-    @StateObject var viewModel = PurchasedListViewModel(purchaseStatus: .purchased)
+    @StateObject private var viewModel = PurchasedListViewModel(purchaseStatus: .purchased)
     
     private let tab = Tabs.purchasedList
     
@@ -17,11 +17,17 @@ struct PurchasedList: View {
         NavigationStack {
             list
                 .navigationTitle(tab.rawValue)
+                .navigationDestination(for: String.self) { shoppingId in
+                    ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
+                }
+                .onDisappear {
+                    viewModel.fetchModels()
+                }
         }
     }
     
     @ViewBuilder
-    var list: some View {
+    private var list: some View {
         if viewModel.model.isEmpty {
             Text("リストにアイテムがありません")
         } else {
@@ -41,16 +47,9 @@ struct PurchasedList: View {
                             )
                         }
                     }
+                } header: {
+                    Text("購入金額: ¥\(viewModel.total())")
                 }
-            header: {
-                Text("購入金額: ¥\(viewModel.total())")
-            }
-            }
-            .navigationDestination(for: String.self) { shoppingId in
-                ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
-            }
-            .onDisappear {
-                viewModel.fetchModels()
             }
         }
     }

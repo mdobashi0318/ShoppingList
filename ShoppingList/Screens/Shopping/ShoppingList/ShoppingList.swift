@@ -9,44 +9,12 @@ import SwiftUI
 
 struct ShoppingList: View {
     
-    @StateObject var viewModel: ShoppingListViewModel
+    @StateObject private var viewModel = ShoppingListViewModel(purchaseStatus: .unPurchased)
     
-    @State var addPageSheet = false
+    @State private var addPageSheet = false
     
-    let tab: Tabs
+    private let tab: Tabs = .shoppingList
 
-    @ViewBuilder
-    var list: some View {
-        if viewModel.model.isEmpty {
-            Text("リストにアイテムがありません")
-        } else {
-            List {
-                ForEach($viewModel.model) { shopping in
-                    NavigationLink(value: shopping.id) {
-                        ShoppingRow(
-                            name: viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? "見つかりません",
-                            count: shopping.count.wrappedValue,
-                            totalPrice: viewModel.totalPrice(shopping.wrappedValue),
-                            purchaseStatus: shopping.purchased.wrappedValue,
-                            toggleValue: shopping.purchased.wrappedValue == PurchaseStatus.purchased.rawValue,
-                            toggleAction: {
-                                viewModel.updatePurchaseStatus(shoppingId: shopping.id, purchased: $0)
-                            }
-                        )
-                    }
-                }
-            }
-            .navigationDestination(for: String.self) { shoppingId in
-                ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
-            }
-            .onDisappear {
-                viewModel.fetchModels()
-            }
-        }
-        
-    }
-    
-    
     var body: some View {
         NavigationStack {
             list
@@ -66,12 +34,41 @@ struct ShoppingList: View {
                     }
                 }
                 .navigationTitle(tab.rawValue)
+                .navigationDestination(for: String.self) { shoppingId in
+                    ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
+                }
+                .onDisappear {
+                    viewModel.fetchModels()
+                }
+        }
+    }
+    
+    
+    @ViewBuilder
+    private var list: some View {
+        if viewModel.model.isEmpty {
+            Text("リストにアイテムがありません")
+        } else {
+            List {
+                ForEach($viewModel.model) { shopping in
+                    NavigationLink(value: shopping.id) {
+                        ShoppingRow(
+                            name: viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? "見つかりません",
+                            count: shopping.count.wrappedValue,
+                            totalPrice: viewModel.totalPrice(shopping.wrappedValue),
+                            purchaseStatus: shopping.purchased.wrappedValue,
+                            toggleValue: shopping.purchased.wrappedValue == PurchaseStatus.purchased.rawValue,
+                            toggleAction: {
+                                viewModel.updatePurchaseStatus(shoppingId: shopping.id, purchased: $0)
+                            }
+                        )
+                    }
+                }
+            }
         }
     }
 }
 
 #Preview {
-    ShoppingList(viewModel: ShoppingListViewModel(purchaseStatus: .purchased),
-                 tab: Tabs.shoppingList
-    )
+    ShoppingList()
 }

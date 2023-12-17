@@ -9,15 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var title = "ShoppingList"
-    
     var body: some View {
         TabView() {
-            ShoppingList(viewModel: ShoppingListViewModel(purchaseStatus: .unPurchased),
-                         tab: Tabs.shoppingList)
+            ShoppingList()
             .tabItem { Label("List", systemImage: "cart") }
             
-            ItemListScreen(tab: Tabs.itemList)
+            ItemListScreen()
                 .tabItem { Label("Item", systemImage: "bag.fill") }
             
             PurchasedList()
