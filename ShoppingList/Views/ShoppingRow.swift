@@ -21,8 +21,6 @@ struct ShoppingRow: View {
     
     let toggleAction: (Bool) -> Void
     
-    let isPurchased: Bool
-    
     var body: some View {
         HStack {
             VStack(alignment: .leading) {

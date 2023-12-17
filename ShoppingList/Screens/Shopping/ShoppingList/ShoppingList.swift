@@ -31,8 +31,7 @@ struct ShoppingList: View {
                             toggleValue: shopping.purchased.wrappedValue == PurchaseStatus.purchased.rawValue,
                             toggleAction: {
                                 viewModel.updatePurchaseStatus(shoppingId: shopping.id, purchased: $0)
-                            },
-                            isPurchased: tab == .shoppingList ? true : false
+                            }
                         )
                     }
                 }
