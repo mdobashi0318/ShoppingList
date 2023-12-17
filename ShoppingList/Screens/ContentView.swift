@@ -20,8 +20,7 @@ struct ContentView: View {
             ItemListScreen(tab: Tabs.itemList)
                 .tabItem { Label("Item", systemImage: "bag.fill") }
             
-            ShoppingList(viewModel: ShoppingListViewModel(purchaseStatus: .purchased),
-                         tab: Tabs.purchasedList)
+            PurchasedList()
             .tabItem { Label("List", systemImage: "chineseyuanrenminbisign.circle") }
         }
     }
