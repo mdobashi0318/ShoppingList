@@ -13,8 +13,6 @@ struct ItemListScreen: View {
     
     @State private var addItemSheet = false
     
-    private let tab: Tabs = .itemList
-    
     var body: some View {
         NavigationStack {
             itemList
