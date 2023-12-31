@@ -46,7 +46,7 @@ struct ItemListScreen: View {
             List {
                 ForEach($viewModel.model) { item in
                     NavigationLink(value: item.id) {
-                        VStack {
+                        VStack(alignment: .leading) {
                             Text(item.name.wrappedValue)
                             Text("¥\(item.price.wrappedValue)")
                         }
