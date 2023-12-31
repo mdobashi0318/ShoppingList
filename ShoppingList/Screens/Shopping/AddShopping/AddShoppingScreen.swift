@@ -20,17 +20,17 @@ struct AddShoppingScreen: View {
                     itemView
                     selectItemForm
                 } header: {
-                    Text("商品")
+                    Text(R.string.label.goods())
                 }
                 
                 Section {
-                    TextField("個数を入力してください", text: $viewModel.count)
+                    TextField(R.string.label.pleaseEnterTheQuantity(), text: $viewModel.count)
                         .keyboardType(.numberPad)
                 } header: {
-                    Text("個数")
+                    Text(R.string.label.pieces())
                 }
             }
-            .navigationTitle(viewModel.mode == .add ? "購入情報追加" : "購入情報更新" )
+            .navigationTitle(viewModel.mode == .add ? R.string.naviTitle.purchaseInformationAdded() : R.string.naviTitle.purchaseInformationUpdate() )
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     AddButton {
@@ -49,11 +49,11 @@ struct AddShoppingScreen: View {
             .alert(isPresented: $viewModel.alertFlag) {
                 switch viewModel.alertType {
                 case .success:
-                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")) {
+                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text(R.string.button.close())) {
                         self.dismiss()
                     })
                 case .error:                    
-                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")))
+                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text(R.string.button.close())))
                 }
             }
         }
@@ -78,11 +78,11 @@ struct AddShoppingScreen: View {
     var selectItemForm: some View {
         if viewModel.mode == .add {
             Toggle(isOn: $viewModel.inputItem, label: {
-                Text("登録済の商品から選ぶ")
+                Text(R.string.label.selectFromRegisteredProducts())
             })
             
             if viewModel.inputItem {
-                Picker("a", selection: $viewModel.itemId) {
+                Picker("", selection: $viewModel.itemId) {
                     ForEach($viewModel.model, id: \.id) { item in
                         Text(item.name.wrappedValue)
                     }

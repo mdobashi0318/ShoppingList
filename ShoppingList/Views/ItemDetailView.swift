@@ -16,13 +16,13 @@ struct ItemDetailView: View {
     
     var body: some View {
         HStack {
-            Text("商品")
+            Text(R.string.label.goods())
             Spacer()
             Text(name)
         }
         
         HStack {
-            Text("金額")
+            Text(R.string.label.amountOfMoney())
             Spacer()
             Text("¥\(price)")
         }

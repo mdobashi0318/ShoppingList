@@ -12,8 +12,6 @@ struct ShoppingList: View {
     @StateObject private var viewModel = ShoppingListViewModel(purchaseStatus: .unPurchased)
     
     @State private var addPageSheet = false
-    
-    private let tab: Tabs = .shoppingList
 
     var body: some View {
         NavigationStack {
@@ -33,7 +31,7 @@ struct ShoppingList: View {
                         viewModel.fetchModels()
                     }
                 }
-                .navigationTitle(tab.rawValue)
+                .navigationTitle(R.string.naviTitle.listOfPlannedPurchases())
                 .navigationDestination(for: String.self) { shoppingId in
                     ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
                 }
@@ -47,13 +45,13 @@ struct ShoppingList: View {
     @ViewBuilder
     private var list: some View {
         if viewModel.model.isEmpty {
-            Text("リストにアイテムがありません")
+            Text(R.string.label.noList())
         } else {
             List {
                 ForEach($viewModel.model) { shopping in
                     NavigationLink(value: shopping.id) {
                         ShoppingRow(
-                            name: viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? "見つかりません",
+                            name: viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? R.string.label.notFound(),
                             count: shopping.count.wrappedValue,
                             totalPrice: viewModel.totalPrice(shopping.wrappedValue),
                             purchaseStatus: shopping.purchased.wrappedValue,

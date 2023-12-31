@@ -1,0 +1,21 @@
+/* 
+  AlertMessage.strings
+  ShoppingList
+
+  Created by 土橋正晴 on 2023/12/30.
+  
+*/
+
+
+"Added" =  "追加しました";
+"Failed to add." = "追加に失敗しました";
+
+"Updated" = "更新しました";
+"Update failed." = "更新に失敗しました";
+
+"The product name has not been entered" = "商品名が入力されていません";
+"Amount not entered" = "金額が入力されていません";
+"No products have been selected" = "商品が選択されていません";
+"The number of pieces has not been entered" = "個数が入力されていません";
+
+"What do you want to do" =  "どうしますか？";

@@ -23,7 +23,7 @@ struct ItemDetailScreen: View {
                            price: viewModel.model.price
             )
         }
-        .navigationTitle("アイテム追加")
+        .navigationTitle(R.string.naviTitle.itemDetails())
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 EllipsisButton(action: { isActionSheet.toggle() })

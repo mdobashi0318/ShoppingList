@@ -31,7 +31,7 @@ class ShoppingDetailViewModel: ObservableObject {
             shopping = try Shopping.fetch(id: id)
             purchased = shopping.purchased == PurchaseStatus.purchased.rawValue ? true : false
         } catch {
-            errorMessage = "見つかりません"
+            errorMessage = R.string.label.notFound()
         }
     }
 
@@ -40,7 +40,7 @@ class ShoppingDetailViewModel: ObservableObject {
         do {
             item = try Item.fetch(id: shopping.itemId)
         } catch {
-            errorMessage = "見つかりません"
+            errorMessage = R.string.label.notFound()
         }
     }
     
@@ -55,7 +55,7 @@ class ShoppingDetailViewModel: ObservableObject {
             try Shopping.delete(shopping)
             shopping = Shopping()
         } catch {
-            errorMessage = "見つかりません"
+            errorMessage = R.string.label.notFound()
         }
     }
     

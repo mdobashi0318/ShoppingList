@@ -26,7 +26,7 @@ struct ShoppingRow: View {
             VStack(alignment: .leading) {
                 HStack {
                     Text(name)
-                    Text("\(count)個")
+                    Text("\(count) \(R.string.label.pieces())")
                 }
                 Text("¥\(totalPrice)")
             }

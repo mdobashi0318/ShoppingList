@@ -33,6 +33,11 @@ targets:
     dependencies:
         - package: Realm
           product: RealmSwift
+        - package: Rswift
+          product: RswiftLibrary
+    buildToolPlugins:
+        - plugin: RswiftGenerateInternalResources
+          package: Rswift
         
   ShoppingListTests:
       type: bundle.unit-test
@@ -76,7 +81,7 @@ packages:
  Realm:
     url: https://github.com/realm/realm-swift
     version: 10.43.1
- R.swift:
+ Rswift:
     url: https://github.com/mac-cain13/R.swift
     version: 7.4.0
 

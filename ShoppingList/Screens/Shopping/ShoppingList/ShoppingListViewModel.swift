@@ -32,7 +32,7 @@ class ShoppingListViewModel: ObservableObject {
         do {
             model = try Shopping.fetchList(purchaseStatus: purchaseStatus)
         } catch {
-            errorMessage = "見つかりません"
+            errorMessage = R.string.label.notFound()
         }
     }
 
@@ -41,7 +41,7 @@ class ShoppingListViewModel: ObservableObject {
         do {
             items = try Item.allFetch()
         } catch {
-            errorMessage = "見つかりません"
+            errorMessage = R.string.label.notFound()
         }
     }
     

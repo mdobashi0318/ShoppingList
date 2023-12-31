@@ -26,35 +26,35 @@ struct ShoppingDetailScreen: View {
                 
                 
                 HStack {
-                    Text("個数")
+                    Text(R.string.label.quantity())
                     Spacer()
-                    Text("\(viewModel.shopping.count)個")
+                    Text("\(viewModel.shopping.count)\(R.string.label.pieces())")
                 }
             } header: {
-                Text("商品情報")
+                Text(R.string.label.productInformation())
             }
             
             HStack {
-                Text("合計金額")
+                Text(R.string.label.totalAmount())
                 Spacer()
                 Text("¥\(viewModel.item.price * viewModel.shopping.count)")
             }
-            Toggle("購入済", isOn: $viewModel.purchased)
+            Toggle(R.string.label.alreadyBought(), isOn: $viewModel.purchased)
         }
         .task(id: viewModel.purchased) {
             viewModel.updatePurchaseStatus()
         }
-        .navigationTitle("購入内容")
+        .navigationTitle(R.string.naviTitle.purchaseDetails())
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 EllipsisButton(action: { isActionSheet.toggle() })
             }
         }
-        .confirmationDialog("どうしますか？", isPresented: $isActionSheet) {
-            Button("編集") {
+        .confirmationDialog(R.string.alertMessage.whatDoYouWantToDo(), isPresented: $isActionSheet) {
+            Button(R.string.button.edit()) {
                 isEditScreen.toggle()
             }
-            Button("削除", role: .destructive) {
+            Button(R.string.button.delete(), role: .destructive) {
                 viewModel.delete()
                 self.dismiss()
             }

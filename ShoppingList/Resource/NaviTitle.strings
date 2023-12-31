@@ -1,0 +1,21 @@
+/*
+  NaviTitle.strings
+  ShoppingList
+
+  Created by 土橋正晴 on 2023/12/30.
+  
+*/
+
+"Add Item" = "アイテム追加";
+"Update Item" = "アイテム更新";
+
+"Item Details" = "アイテム詳細";
+"Purchase Details" = "購入内容";
+
+"Purchase information added" = "購入情報追加";
+"Purchase Information Update" = "購入情報更新";
+
+
+"List of Planned Purchases" = "購入予定一覧";
+"Purchased List" = "購入済一覧";
+"Item List" = "商品一覧";

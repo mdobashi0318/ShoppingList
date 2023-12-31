@@ -1,0 +1,36 @@
+/*
+  Label.strings
+  ShoppingList
+
+  Created by 土橋正晴 on 2023/12/29.
+  
+*/
+
+
+"NoList" = "リストにアイテムがありません";
+"Not found" = "見つかりません";
+
+
+"quantity" = "個数";
+"pieces" = "個";
+"Product Information" = "商品情報";
+"total amount" = "合計金額";
+"already bought" = "購入済";
+"Goods" = "商品";
+"Amount of money" = "金額";
+"Purchase price" = "購入金額";
+
+
+
+"Please enter a product name" = "商品名を入力してください";
+"Please enter an amount" = "金額を入力してください";
+"Please enter the quantity" = "個数を入力してください";
+
+"Select from registered products" = "登録済の商品から選ぶ";
+
+
+
+
+
+
+

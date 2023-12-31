@@ -11,12 +11,10 @@ struct PurchasedList: View {
     
     @StateObject private var viewModel = PurchasedListViewModel(purchaseStatus: .purchased)
     
-    private let tab = Tabs.purchasedList
-    
     var body: some View {
         NavigationStack {
             list
-                .navigationTitle(tab.rawValue)
+                .navigationTitle(R.string.naviTitle.purchasedList())
                 .navigationDestination(for: String.self) { shoppingId in
                     ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
                 }
@@ -29,14 +27,14 @@ struct PurchasedList: View {
     @ViewBuilder
     private var list: some View {
         if viewModel.model.isEmpty {
-            Text("リストにアイテムがありません")
+            Text(R.string.label.noList())
         } else {
             List {
                 Section {
                     ForEach($viewModel.model) { shopping in
                         NavigationLink(value: shopping.id) {
                             ShoppingRow(
-                                name: viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? "見つかりません",
+                                name: viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? R.string.label.notFound(),
                                 count: shopping.count.wrappedValue,
                                 totalPrice: viewModel.totalPrice(shopping.wrappedValue),
                                 purchaseStatus: shopping.purchased.wrappedValue,
@@ -48,7 +46,7 @@ struct PurchasedList: View {
                         }
                     }
                 } header: {
-                    Text("購入金額: ¥\(viewModel.total())")
+                    Text("\(R.string.label.purchasePrice()): ¥\(viewModel.total())")
                 }
             }
         }

@@ -14,8 +14,8 @@ struct ItemAddFormView: View {
     @Binding var price: String
     
     var body: some View {
-            TextField("商品名を入力してください", text: $name)
-            TextField("金額を入力してください", text: $price)
+        TextField(R.string.label.pleaseEnterAProductName(), text: $name)
+            TextField(R.string.label.pleaseEnterAnAmount(), text: $price)
                 .keyboardType(.numberPad)
     }
 }

@@ -59,7 +59,7 @@ class AddShoppingViewModel: ObservableObject {
             Task {
                 /// この時点でシートが表示されてないためか、アラートが表示されないため表示フラグを変更するタイミングを遅らせる
                 try await Task.sleep(until: .now + .seconds(0.1))
-                setAlert(type: .error, message: "見つかりません")
+                setAlert(type: .error, message: R.string.label.notFound())
             }
         }
     }
@@ -71,9 +71,9 @@ class AddShoppingViewModel: ObservableObject {
             }
             
             try Shopping.add(Shopping(itemId: itemId, count: count, purchased: PurchaseStatus.unPurchased.rawValue))
-            setAlert(type: .success, message: "追加しました")
+            setAlert(type: .success, message: R.string.alertMessage.added())
         } catch {
-            setAlert(type: .error, message: "追加に失敗しました")
+            setAlert(type: .error, message: R.string.alertMessage.failedToAdd())
         }
         
         
@@ -85,23 +85,23 @@ class AddShoppingViewModel: ObservableObject {
         
         if inputItem {
             if itemId.isEmpty {
-                setAlert(type: .error, message: "商品が選択されていません")
+                setAlert(type: .error, message: R.string.alertMessage.noProductsHaveBeenSelected())
                 return false
             } else if count.isEmpty {
-                setAlert(type: .error, message: "個数が入力されていません")
+                setAlert(type: .error, message: R.string.alertMessage.theNumberOfPiecesHasNotBeenEntered())
                 return false
             }
 
         } else {
             if name.isEmpty {
-                setAlert(type: .error, message: "商品名が入力されていません")
+                setAlert(type: .error, message: R.string.alertMessage.theProductNameHasNotBeenEntered())
                 return false
             } else if price.isEmpty {
-                setAlert(type: .error, message: "金額が入力されていません")
+                setAlert(type: .error, message: R.string.alertMessage.amountNotEntered())
                 return false
                 
             } else if count.isEmpty {
-                setAlert(type: .error, message: "個数が入力されていません")
+                setAlert(type: .error, message: R.string.alertMessage.theNumberOfPiecesHasNotBeenEntered())
                 return false
             }
         }
@@ -117,9 +117,9 @@ class AddShoppingViewModel: ObservableObject {
         
         do {
             try Shopping.update(Shopping(id: shoppingId, count: Int(count) ?? 0))
-            setAlert(type: .success, message: "更新しました")
+            setAlert(type: .success, message: R.string.alertMessage.updated())
         } catch {
-            setAlert(type: .error, message: "更新に失敗しました")
+            setAlert(type: .error, message: R.string.alertMessage.updateFailed())
         }
     }
     
@@ -130,7 +130,7 @@ class AddShoppingViewModel: ObservableObject {
                 model.append($0)
             }
         } catch {
-            setAlert(type: .error, message: "見つかりません")
+            setAlert(type: .error, message: R.string.label.notFound())
         }
     }
     

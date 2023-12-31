@@ -18,7 +18,7 @@ struct ItemListScreen: View {
     var body: some View {
         NavigationStack {
             itemList
-                .navigationTitle(tab.rawValue)
+                .navigationTitle(R.string.naviTitle.itemList())
                 .toolbar {
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         AddButton(action: {

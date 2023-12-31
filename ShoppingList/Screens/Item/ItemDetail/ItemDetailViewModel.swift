@@ -27,7 +27,7 @@ class ItemDetailViewModel: ObservableObject {
         do {
             model = try Item.fetch(id: itemId)
         } catch {
-            errorMessage = "見つかりません"
+            errorMessage = R.string.label.notFound()
             errorFlag = true
         }
     }

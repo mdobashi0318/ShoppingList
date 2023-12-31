@@ -20,7 +20,7 @@ struct AddItemScreen: View {
                                 price: $viewModel.price
                 )
             }
-            .navigationTitle("アイテム追加")
+            .navigationTitle(viewModel.mode == .add ? R.string.naviTitle.addItem() : R.string.naviTitle.updateItem())
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     AddButton {
@@ -37,11 +37,11 @@ struct AddItemScreen: View {
             .alert(isPresented: $viewModel.alertFlag) {
                 switch viewModel.alertType {
                 case .success:
-                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")) {
+                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text(R.string.button.close())) {
                         self.dismiss()
                     })
                 case .error:
-                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text("閉じる")))
+                    Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text(R.string.button.close())))
                 }
                 
                 
