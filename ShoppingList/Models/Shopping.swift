@@ -26,6 +26,12 @@ class Shopping: Object, Identifiable, RealmProtocol {
     
     @Persisted var purchased: String = PurchaseStatus.unPurchased.rawValue
     
+    @Persisted var created_at: String = ""
+    
+    @Persisted var updated_at: String = ""
+    
+    @Persisted var purchasedDate: String = ""
+    
     var item: Item?
     
     override init() {}
@@ -60,7 +66,7 @@ class Shopping: Object, Identifiable, RealmProtocol {
         var model = [Shopping]()
         
         realm.objects(Shopping.self).filter("purchased == '\(String(describing: purchaseStatus.rawValue))'").freeze().forEach {
-                model.append($0)
+            model.append($0)
         }
         return model
     }
@@ -78,7 +84,11 @@ class Shopping: Object, Identifiable, RealmProtocol {
             throw ModelError()
         }
         
+        let now = DateFormatter.stringFromDate(date: Date(), type: .secnd)
+        
         model.id = UUID().uuidString
+        model.created_at = now
+        model.updated_at = now
         
         do {
             try realm.write {
@@ -99,6 +109,7 @@ class Shopping: Object, Identifiable, RealmProtocol {
             let update = try Shopping.fetch(id: model.id)    
             try realm.write {
                 update.count = model.count
+                model.updated_at = DateFormatter.stringFromDate(date: Date(), type: .secnd)
             }
         } catch {
             throw ModelError()
@@ -115,6 +126,8 @@ class Shopping: Object, Identifiable, RealmProtocol {
             let model = try Shopping.fetch(id: id)
             try realm.write {
                 model.purchased = status ? PurchaseStatus.purchased.rawValue : PurchaseStatus.unPurchased.rawValue
+                model.updated_at = DateFormatter.stringFromDate(date: Date(), type: .secnd)
+                model.purchasedDate = status ? DateFormatter.stringFromDate(date: Date(), type: .date) : ""
             }
         } catch {
             throw ModelError()

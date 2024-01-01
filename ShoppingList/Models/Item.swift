@@ -15,6 +15,8 @@ class Item: Object, Identifiable, RealmProtocol {
     @Persisted(primaryKey: true) var id: String = ""
     @Persisted var name: String = ""
     @Persisted var price: Int  = 0
+    @Persisted var created_at: String = ""
+    @Persisted var updated_at: String = ""
     
     override init() {}
     
@@ -52,7 +54,11 @@ class Item: Object, Identifiable, RealmProtocol {
             throw ModelError()
         }
         
+        let now = DateFormatter.stringFromDate(date: Date(), type: .secnd)
+        
         model.id = UUID().uuidString
+        model.created_at = now
+        model.updated_at = now
         
         do {
             try realm.write {
@@ -68,7 +74,11 @@ class Item: Object, Identifiable, RealmProtocol {
             throw ModelError()
         }
         
+        let now = DateFormatter.stringFromDate(date: Date(), type: .secnd)
+        
         model.id = UUID().uuidString
+        model.created_at = now
+        model.updated_at = now
         
         do {
             try realm.write {
@@ -90,6 +100,7 @@ class Item: Object, Identifiable, RealmProtocol {
             try realm.write {
                 update.name = model.name
                 update.price = model.price
+                update.updated_at = DateFormatter.stringFromDate(date: Date(), type: .secnd)
             }
         } catch {
             throw ModelError()
