@@ -33,6 +33,11 @@ struct ItemListScreen: View {
                 .navigationDestination(for: String.self) { itemId in
                     ItemDetailScreen(viewModel: ItemDetailViewModel(itemId: itemId))
                 }
+                .task(id: addItemSheet) {
+                    if !addItemSheet {
+                        viewModel.fetchItems()
+                    }
+                }
         }
     }
     

@@ -13,6 +13,9 @@
 "Updated" = "更新しました";
 "Update failed." = "更新に失敗しました";
 
+"Deleted" = "削除しました";
+"Deletion failed" = "削除に失敗しました";
+
 "The product name has not been entered" = "商品名が入力されていません";
 "Amount not entered" = "金額が入力されていません";
 "No products have been selected" = "商品が選択されていません";

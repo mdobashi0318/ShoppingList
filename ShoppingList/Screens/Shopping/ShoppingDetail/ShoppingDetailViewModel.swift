@@ -55,7 +55,7 @@ class ShoppingDetailViewModel: ObservableObject {
             try Shopping.delete(shopping)
             shopping = Shopping()
         } catch {
-            errorMessage = R.string.label.notFound()
+            errorMessage = R.string.alertMessage.deletionFailed()
         }
     }
     

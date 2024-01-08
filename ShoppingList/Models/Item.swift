@@ -108,7 +108,17 @@ class Item: Object, Identifiable, RealmProtocol {
     }
     
     static func delete(_ model: Item) throws {
+        guard let realm = RealmManager.realm else {
+            throw ModelError()
+        }
         
+        do {
+            try realm.write {
+                realm.delete(model)
+            }
+        } catch {
+            throw ModelError()
+        }
     }
     
     static func allDetele() throws {

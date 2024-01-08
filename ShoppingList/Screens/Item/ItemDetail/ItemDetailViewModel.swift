@@ -32,7 +32,14 @@ class ItemDetailViewModel: ObservableObject {
         }
     }
     
-    func delete() { }
+    func delete() {
+        do {
+            try Item.delete(model)
+            model = Item()
+        } catch {
+            errorMessage = R.string.alertMessage.deletionFailed()
+        }
+    }
     
     
 }
