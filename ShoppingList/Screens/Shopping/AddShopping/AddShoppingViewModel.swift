@@ -7,10 +7,9 @@
 
 import Foundation
 
-@MainActor
 class AddShoppingViewModel: ObservableObject {
     
-    private(set) var shoppingId: String?
+    private var shoppingId: String?
     
     private(set) var mode: Mode = .add
     
@@ -80,9 +79,6 @@ class AddShoppingViewModel: ObservableObject {
     }
     
     func validation() -> Bool {
-        print(itemId)
-        print(inputItem)
-        
         if inputItem {
             if itemId.isEmpty {
                 setAlert(type: .error, message: R.string.alertMessage.noProductsHaveBeenSelected())

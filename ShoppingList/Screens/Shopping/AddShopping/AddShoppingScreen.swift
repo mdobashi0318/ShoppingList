@@ -11,24 +11,13 @@ struct AddShoppingScreen: View {
     
     @StateObject var viewModel = AddShoppingViewModel()
     
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
             Form {
-                Section {
-                    itemView
-                    selectItemForm
-                } header: {
-                    Text(R.string.label.goods())
-                }
-                
-                Section {
-                    TextField(R.string.label.pleaseEnterTheQuantity(), text: $viewModel.count)
-                        .keyboardType(.numberPad)
-                } header: {
-                    Text(R.string.label.pieces())
-                }
+                itemSection
+                quantitySection
             }
             .navigationTitle(viewModel.mode == .add ? R.string.naviTitle.purchaseInformationAdded() : R.string.naviTitle.purchaseInformationUpdate() )
             .toolbar {
@@ -57,11 +46,31 @@ struct AddShoppingScreen: View {
                 }
             }
         }
-        
     }
+    
+    /// 商品情報を入力するセクション
+    private var itemSection: some View {
+        Section {
+            itemView
+            selectItemForm
+        } header: {
+            Text(R.string.label.goods())
+        }
+    }
+    
+    /// 数量を入力するセクション
+    private var quantitySection: some View {
+        Section {
+            TextField(R.string.label.pleaseEnterTheQuantity(), text: $viewModel.count)
+                .keyboardType(.numberPad)
+        } header: {
+            Text(R.string.label.quantity())
+        }
+    }
+    
     /// アイテム入力フォームかアイテム情報を表示する
     @ViewBuilder
-    var itemView: some View {
+    private var itemView: some View {
         if viewModel.mode == .add {
             ItemAddFormView(name: $viewModel.name,
                             price: $viewModel.price
