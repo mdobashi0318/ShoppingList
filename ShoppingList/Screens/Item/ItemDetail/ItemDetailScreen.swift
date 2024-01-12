@@ -29,11 +29,11 @@ struct ItemDetailScreen: View {
                 EllipsisButton(action: { isActionSheet.toggle() })
             }
         }
-        .confirmationDialog("どうしますか？", isPresented: $isActionSheet) {
-            Button("編集") {
+        .confirmationDialog(R.string.alertMessage.whatDoYouWantToDo(), isPresented: $isActionSheet) {
+            Button(R.string.button.edit()) {
                 isEditScreen.toggle()
             }
-            Button("削除", role: .destructive) {
+            Button(R.string.button.delete(), role: .destructive) {
                 viewModel.delete()
                 self.dismiss()
             }
@@ -47,7 +47,7 @@ struct ItemDetailScreen: View {
                 }
         }
         .alert(isPresented: $viewModel.errorFlag) {
-            Alert(title: Text(viewModel.errorMessage), dismissButton: .default(Text("閉じる")))
+            Alert(title: Text(viewModel.errorMessage), dismissButton: .default(Text(R.string.button.close())))
         }
 
     }

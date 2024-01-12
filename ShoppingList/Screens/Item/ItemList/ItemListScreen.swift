@@ -44,7 +44,7 @@ struct ItemListScreen: View {
     @ViewBuilder
     private var itemList: some View {
         if viewModel.model.isEmpty {
-            Text("リストにアイテムがありません")
+            Text(R.string.label.noList())
         } else {
             List {
                 ForEach($viewModel.model) { item in
