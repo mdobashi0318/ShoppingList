@@ -54,7 +54,16 @@ struct AddShoppingScreen: View {
             itemView
             selectItemForm
         } header: {
-            Text(R.string.label.goods())
+            Text(itemSectionHeader)
+        }
+    }
+    
+    /// itemSectionのheaderの文字列
+    private var itemSectionHeader: String {
+        if viewModel.mode == .update {
+            R.string.label.goods() + "(\(R.string.label.productInformationCannotBeChangedHere()))"
+        } else {
+            R.string.label.goods()
         }
     }
     
