@@ -12,7 +12,7 @@ targets:
     entitlements:
       path: ShoppingList/ShoppingList.entitlements
       properties:
-        com.apple.security.application-groups: group.masaharu.dobashi.ShoppingList
+        com.apple.security.application-groups: [group.masaharu.dobashi.ShoppingList]
     sources:
          - ShoppingList
     settings:
