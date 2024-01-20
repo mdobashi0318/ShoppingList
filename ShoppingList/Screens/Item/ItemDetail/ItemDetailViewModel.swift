@@ -10,13 +10,19 @@ import Foundation
 
 class ItemDetailViewModel: ObservableObject {
     
-    var itemId: String
+    private(set) var itemId: String
     
     @Published var model = Item()
     
     @Published var errorFlag = false
     
     var errorMessage = ""
+    
+    @Published var alertFlag = false
+    
+    private(set) var alertType: AlertType = .success
+    
+    private(set) var alertMessage = ""
     
     init(itemId: String) {
         self.itemId = itemId
@@ -27,8 +33,7 @@ class ItemDetailViewModel: ObservableObject {
         do {
             model = try Item.fetch(id: itemId)
         } catch {
-            errorMessage = R.string.label.notFound()
-            errorFlag = true
+            setAlert(type: .error, message: R.string.label.notFound())
         }
     }
     
@@ -37,9 +42,14 @@ class ItemDetailViewModel: ObservableObject {
             try Item.delete(model)
             model = Item()
         } catch {
-            errorMessage = R.string.alertMessage.deletionFailed()
+            setAlert(type: .error, message: R.string.alertMessage.deletionFailed())
         }
     }
     
+    func setAlert(type: AlertType, message: String) {
+        alertType = type
+        alertMessage = message
+        alertFlag = true
+    }
     
 }

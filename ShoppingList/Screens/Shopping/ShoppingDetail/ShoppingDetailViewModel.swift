@@ -15,9 +15,13 @@ class ShoppingDetailViewModel: ObservableObject {
     
     @Published var purchased = false
     
-    var id = ""
-  
-    var errorMessage = ""
+    private(set) var id = ""
+    
+    @Published var alertFlag = false
+    
+    private(set) var alertType: AlertType = .success
+    
+    private(set) var alertMessage = ""
     
     
     init(id: String) {
@@ -31,7 +35,7 @@ class ShoppingDetailViewModel: ObservableObject {
             shopping = try Shopping.fetch(id: id)
             purchased = shopping.purchased == PurchaseStatus.purchased.rawValue ? true : false
         } catch {
-            errorMessage = R.string.label.notFound()
+            alertMessage = R.string.label.notFound()
         }
     }
 
@@ -40,7 +44,7 @@ class ShoppingDetailViewModel: ObservableObject {
         do {
             item = try Item.fetch(id: shopping.itemId)
         } catch {
-            errorMessage = R.string.label.notFound()
+            setAlert(type: .error, message: R.string.label.notFound())
         }
     }
     
@@ -55,10 +59,14 @@ class ShoppingDetailViewModel: ObservableObject {
             try Shopping.delete(shopping)
             shopping = Shopping()
         } catch {
-            errorMessage = R.string.alertMessage.deletionFailed()
+            setAlert(type: .error, message: R.string.alertMessage.deletionFailed())
         }
     }
     
     
-    
+    func setAlert(type: AlertType, message: String) {
+        alertType = type
+        alertMessage = message
+        alertFlag = true
+    }
 }

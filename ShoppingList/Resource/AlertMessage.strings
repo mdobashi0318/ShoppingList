@@ -22,3 +22,5 @@
 "The number of pieces has not been entered" = "個数が入力されていません";
 
 "What do you want to do" =  "どうしますか？";
+
+"delete confirm" = "削除しますか?";

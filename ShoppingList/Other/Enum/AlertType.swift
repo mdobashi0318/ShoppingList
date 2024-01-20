@@ -8,5 +8,5 @@
 import Foundation
 
 enum AlertType {
-    case success, error
+    case success, error, confirm
 }

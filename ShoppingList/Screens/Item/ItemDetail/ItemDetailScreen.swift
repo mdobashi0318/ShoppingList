@@ -34,8 +34,7 @@ struct ItemDetailScreen: View {
                 isEditScreen.toggle()
             }
             Button(R.string.button.delete(), role: .destructive) {
-                viewModel.delete()
-                self.dismiss()
+                viewModel.setAlert(type: .confirm, message: R.string.alertMessage.deleteConfirm())
             }
         }
         .sheet(isPresented: $isEditScreen) {
@@ -46,8 +45,28 @@ struct ItemDetailScreen: View {
                     viewModel.fetch()
                 }
         }
-        .alert(isPresented: $viewModel.errorFlag) {
-            Alert(title: Text(viewModel.errorMessage), dismissButton: .default(Text(R.string.button.close())))
+        .alert(isPresented: $viewModel.alertFlag) {
+            switch viewModel.alertType {
+            case .success:
+                Alert(title: Text(viewModel.alertMessage),
+                      dismissButton: .default(Text(R.string.button.close()),
+                                              action: { dismiss() }
+                                             )
+                )
+            case .error:
+                Alert(title: Text(viewModel.alertMessage),
+                      dismissButton: .default(Text(R.string.button.close()))
+                )
+            case .confirm:
+                Alert(title: Text(viewModel.alertMessage), primaryButton: .destructive(Text(R.string.button.delete()), action: {
+                    Task {
+                        viewModel.delete()
+                        viewModel.setAlert(type: .success, message: R.string.alertMessage.deleted())
+                    }
+                }),
+                      secondaryButton: .cancel(Text(R.string.button.cancel()))
+                )
+            }
         }
 
     }

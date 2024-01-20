@@ -41,7 +41,7 @@ struct AddShoppingScreen: View {
                     Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text(R.string.button.close())) {
                         self.dismiss()
                     })
-                case .error:                    
+                case .error, .confirm:
                     Alert(title: Text(viewModel.alertMessage), dismissButton: .default(Text(R.string.button.close())))
                 }
             }
