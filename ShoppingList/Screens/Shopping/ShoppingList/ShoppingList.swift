@@ -57,7 +57,10 @@ struct ShoppingList: View {
                             purchaseStatus: shopping.purchased.wrappedValue,
                             toggleValue: shopping.purchased.wrappedValue == PurchaseStatus.purchased.rawValue,
                             toggleAction: {
-                                viewModel.updatePurchaseStatus(shoppingId: shopping.id, purchased: $0)
+                                viewModel.updatePurchaseStatus(shoppingId: shopping.id,
+                                                               purchased: $0,
+                                                               itemId: shopping.itemId.wrappedValue
+                                )
                             }
                         )
                     }

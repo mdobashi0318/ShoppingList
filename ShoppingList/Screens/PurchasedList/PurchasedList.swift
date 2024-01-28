@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PurchasedList: View {
     
-    @StateObject private var viewModel = PurchasedListViewModel(purchaseStatus: .purchased)
+    @StateObject private var viewModel = PurchasedListViewModel()
     
     var body: some View {
         NavigationStack {
@@ -19,28 +19,30 @@ struct PurchasedList: View {
                     ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
                 }
                 .onDisappear {
-                    viewModel.fetchModels()
+                    viewModel.fetch()
                 }
         }
     }
     
     @ViewBuilder
     private var list: some View {
-        if viewModel.model.isEmpty {
+        if $viewModel.model.isEmpty {
             Text(R.string.label.noList())
         } else {
             List {
                 Section {
-                    ForEach($viewModel.model) { shopping in
-                        NavigationLink(value: shopping.id) {
+                    ForEach($viewModel.model) { item in
+                        NavigationLink(value: item.id) {
                             ShoppingRow(
-                                name: viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? R.string.label.notFound(),
-                                count: shopping.count.wrappedValue,
-                                totalPrice: viewModel.totalPrice(shopping.wrappedValue),
-                                purchaseStatus: shopping.purchased.wrappedValue,
-                                toggleValue: shopping.purchased.wrappedValue == PurchaseStatus.purchased.rawValue,
+                                name: item.itemName.wrappedValue,
+                                count: item.count.wrappedValue,
+                                totalPrice: item.price.wrappedValue * item.count.wrappedValue,
+                                purchaseStatus: PurchaseStatus.purchased.rawValue,
+                                toggleValue: true,
                                 toggleAction: {
-                                    viewModel.updatePurchaseStatus(shoppingId: shopping.id, purchased: $0)
+                                    viewModel.updatePurchaseStatus(shoppingId: item.shoppingId.wrappedValue,
+                                                                   purchased: $0,
+                                                                   itemId: item.itemId.wrappedValue)
                                 }
                             )
                         }

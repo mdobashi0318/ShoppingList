@@ -14,10 +14,20 @@ class PurchasedItem: Object, Identifiable, RealmProtocol {
     
     @Persisted(primaryKey: true) var id: String = ""
     
+    /// モデルItemの商品名
     @Persisted var itemName: String = ""
+    /// モデルItemの金額
     @Persisted var price: Int  = 0
+    
+    /// モデルShoppingの個数
     @Persisted var count: Int = 0
-    @Persisted var purchased: String = PurchaseStatus.unPurchased.rawValue
+    
+    /// モデルShoppingのプライマリキー
+    @Persisted var shoppingId: String = ""
+    
+    /// モデルItemのプライマリキー
+    @Persisted var itemId: String = ""
+    
     @Persisted var created_at: String = ""
     @Persisted var updated_at: String = ""
     
@@ -39,13 +49,24 @@ class PurchasedItem: Object, Identifiable, RealmProtocol {
         return model
     }
     
-    static func add(_ model: PurchasedItem) throws {
-        guard let realm = RealmManager.realm else {
+    static func add(_ model: PurchasedItem) throws { }
+    
+    
+    static func addItem(shoppingId: String, itemId: String) throws {
+        guard let realm = RealmManager.realm,
+        let shopping = try? Shopping.fetch(id: shoppingId),
+        let item = try? Item.fetch(id: itemId) else {
             throw ModelError()
         }
-        
+        let model = PurchasedItem()
         let now = DateFormatter.stringFromDate(date: Date(), type: .secnd)
+        
         model.id = UUID().uuidString
+        model.itemName = item.name
+        model.count = shopping.count
+        model.price = item.price
+        model.shoppingId = shopping.id
+        model.itemId = item.id
         model.created_at = now
         model.updated_at = now
         
@@ -59,26 +80,16 @@ class PurchasedItem: Object, Identifiable, RealmProtocol {
         
     }
     
-    static func update(_ model: PurchasedItem) throws {
-        guard let realm = RealmManager.realm else {
-            throw ModelError()
-        }
-        
-        do {
-            let update = try PurchasedItem.fetch(id: model.id)
-            try realm.write {
-                update.count = model.count
-                model.updated_at = DateFormatter.stringFromDate(date: Date(), type: .secnd)
-            }
-        } catch {
-            throw ModelError()
-        }
-    }
+    static func update(_ model: PurchasedItem) throws { }
     
-    static func delete(_ model: PurchasedItem) throws {
-        guard let realm = RealmManager.realm else {
+    static func delete(_ model: PurchasedItem) throws { }
+    
+    static func deleteItem(shoppingId: String) throws {
+        guard let realm = RealmManager.realm,
+        let shopping = try? Shopping.fetch(id: shoppingId) else {
             throw ModelError()
         }
+        let model = realm.objects(PurchasedItem.self).where( { $0.shoppingId == shoppingId })
         
         do {
             try realm.write {
@@ -87,13 +98,9 @@ class PurchasedItem: Object, Identifiable, RealmProtocol {
         } catch {
             throw ModelError()
         }
-    }
-    
-    static func allDetele() throws {
         
     }
     
-    
-    
+    static func allDetele() throws { }
     
 }
