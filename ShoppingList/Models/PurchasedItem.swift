@@ -28,6 +28,8 @@ class PurchasedItem: Object, Identifiable, RealmProtocol {
     /// モデルItemのプライマリキー
     @Persisted var itemId: String = ""
     
+    @Persisted var purchaseDate = ""
+    
     @Persisted var created_at: String = ""
     @Persisted var updated_at: String = ""
     
@@ -67,6 +69,7 @@ class PurchasedItem: Object, Identifiable, RealmProtocol {
         model.price = item.price
         model.shoppingId = shopping.id
         model.itemId = item.id
+        model.purchaseDate = DateFormatter.stringFromDate(date: Date(), type: .date)
         model.created_at = now
         model.updated_at = now
         

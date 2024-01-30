@@ -33,7 +33,7 @@ struct PurchasedList: View {
                 Section {
                     ForEach($viewModel.model) { item in
                         NavigationLink(value: item.id) {
-                            ShoppingRow(
+                            PurchasedItemRow(
                                 name: item.itemName.wrappedValue,
                                 count: item.count.wrappedValue,
                                 totalPrice: item.price.wrappedValue * item.count.wrappedValue,
@@ -43,7 +43,9 @@ struct PurchasedList: View {
                                     viewModel.updatePurchaseStatus(shoppingId: item.shoppingId.wrappedValue,
                                                                    purchased: $0,
                                                                    itemId: item.itemId.wrappedValue)
-                                }
+                                    viewModel.fetch()
+                                },
+                                purchaseDate: item.purchaseDate.wrappedValue
                             )
                         }
                     }
