@@ -18,7 +18,7 @@ struct PurchasedList: View {
                 .navigationDestination(for: String.self) { shoppingId in
                     ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
                 }
-                .onDisappear {
+                .onAppear {
                     viewModel.fetch()
                 }
         }
