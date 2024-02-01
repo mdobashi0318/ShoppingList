@@ -39,10 +39,13 @@ struct ShoppingDetailScreen: View {
                 Spacer()
                 Text("¥\(viewModel.item.price * viewModel.shopping.count)")
             }
-            Toggle(R.string.label.alreadyBought(), isOn: $viewModel.purchased)
-        }
-        .task(id: viewModel.purchased) {
-            viewModel.updatePurchaseStatus()
+            Toggle(isOn: $viewModel.purchased, label: {
+                Text(R.string.label.alreadyBought())
+            })
+            .onChange(of: viewModel.purchased) { _ in
+                self.viewModel.updatePurchaseStatus()
+            }
+                
         }
         .navigationTitle(R.string.naviTitle.purchaseDetails())
         .toolbar {

@@ -51,6 +51,12 @@ class ShoppingDetailViewModel: ObservableObject {
     
     func updatePurchaseStatus() {
         try? Shopping.updatePurchaseStatus(id: id, status: purchased)
+        
+        if purchased {
+            try? PurchasedItem.addItem(shoppingId: shopping.id, itemId: shopping.itemId)
+        } else {
+            try? PurchasedItem.deleteItem(shoppingId: shopping.id)
+        }
     }
     
     
