@@ -18,35 +18,13 @@ struct ShoppingDetailScreen: View {
     @State var isEditScreen = false
     
     var body: some View {
-        Form {
-            Section {
-                ItemDetailView(name: viewModel.item.name,
-                               price: viewModel.item.price
-                )
-                
-                
-                HStack {
-                    Text(R.string.label.quantity())
-                    Spacer()
-                    Text("\(viewModel.shopping.count)\(R.string.label.pieces())")
-                }
-            } header: {
-                Text(R.string.label.productInformation())
-            }
-            
-            HStack {
-                Text(R.string.label.totalAmount())
-                Spacer()
-                Text("¥\(viewModel.item.price * viewModel.shopping.count)")
-            }
-            Toggle(isOn: $viewModel.purchased, label: {
-                Text(R.string.label.alreadyBought())
-            })
-            .onChange(of: viewModel.purchased) { _ in
-                self.viewModel.updatePurchaseStatus()
-            }
-                
-        }
+        ShoppingDetailView(name: viewModel.item.name,
+                           price: viewModel.item.price,
+                           itemCount: viewModel.shopping.count,
+                           toggleValue: $viewModel.purchased,
+                           toggleAction: { _ in
+            self.viewModel.updatePurchaseStatus()
+        })
         .navigationTitle(R.string.naviTitle.purchaseDetails())
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
