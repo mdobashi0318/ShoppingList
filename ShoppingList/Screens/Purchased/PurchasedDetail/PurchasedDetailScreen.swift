@@ -1,30 +1,28 @@
 //
-//  ShoppingDetailScreen.swift
+//  PurchasedDetailScreen.swift
 //  ShoppingList
 //
-//  Created by 土橋正晴 on 2023/11/11.
+//  Created by 土橋正晴 on 2024/02/06.
 //
 
 import SwiftUI
 
-struct ShoppingDetailScreen: View {
+struct PurchasedDetailScreen: View {
     
-    @StateObject var viewModel: ShoppingDetailViewModel
+    @StateObject var viewModel: PurchasedDetailViewModel
     
     @Environment(\.dismiss) var dismiss
     
     @State var isActionSheet = false
     
-    @State var isEditScreen = false
-    
     var body: some View {
-        ShoppingDetailView(name: viewModel.item.name,
-                           price: viewModel.item.price,
-                           itemCount: viewModel.shopping.count,
+        ShoppingDetailView(name: viewModel.purchasedItem.itemName,
+                           price: viewModel.purchasedItem.price,
+                           itemCount: viewModel.purchasedItem.count,
                            toggleValue: $viewModel.purchased,
-                           toggleAction: { _ in
-            self.viewModel.updatePurchaseStatus()
-        }, isToggleDisp: true)
+                           toggleAction: { _ in },
+                           isToggleDisp: false
+        )
         .navigationTitle(R.string.naviTitle.purchaseDetails())
         .toolbar {
             ToolbarItemGroup(placement: .topBarTrailing) {
@@ -32,18 +30,8 @@ struct ShoppingDetailScreen: View {
             }
         }
         .confirmationDialog(R.string.alertMessage.whatDoYouWantToDo(), isPresented: $isActionSheet) {
-            Button(R.string.button.edit()) {
-                isEditScreen.toggle()
-            }
             Button(R.string.button.delete(), role: .destructive) {
                 viewModel.setAlert(type: .confirm, message: R.string.alertMessage.deleteConfirm())
-            }
-        }
-        .sheet(isPresented: $isEditScreen) {
-            AddShoppingScreen(viewModel: AddShoppingViewModel(mode: .update,
-                                                              shoppingId: viewModel.id))
-            .onDisappear {
-                viewModel.fetchShopping()
             }
         }
         .alert(isPresented: $viewModel.alertFlag) {
@@ -72,6 +60,3 @@ struct ShoppingDetailScreen: View {
     }
 }
 
-#Preview {
-    ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: ""))
-}

@@ -85,7 +85,19 @@ class PurchasedItem: Object, Identifiable, RealmProtocol {
     
     static func update(_ model: PurchasedItem) throws { }
     
-    static func delete(_ model: PurchasedItem) throws { }
+    static func delete(_ model: PurchasedItem) throws { 
+        guard let realm = RealmManager.realm else {
+            throw ModelError()
+        }
+        do {
+            try realm.write {
+                realm.delete(model)
+            }
+        } catch {
+            throw ModelError()
+        }
+        
+    }
     
     static func deleteItem(shoppingId: String) throws {
         guard let realm = RealmManager.realm,

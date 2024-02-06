@@ -16,7 +16,7 @@ struct PurchasedList: View {
             list
                 .navigationTitle(R.string.naviTitle.purchasedList())
                 .navigationDestination(for: String.self) { shoppingId in
-                    ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
+                    PurchasedDetailScreen(viewModel: PurchasedDetailViewModel(id: shoppingId))
                 }
                 .onAppear {
                     viewModel.fetch()

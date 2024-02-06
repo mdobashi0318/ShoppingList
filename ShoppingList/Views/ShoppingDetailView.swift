@@ -19,6 +19,8 @@ struct ShoppingDetailView: View {
     
     let toggleAction: (Bool) -> Void
     
+    let isToggleDisp: Bool
+    
     var body: some View {
         Form {
             Section {
@@ -39,11 +41,13 @@ struct ShoppingDetailView: View {
                 Spacer()
                 Text("¥\(price * itemCount)")
             }
-            Toggle(isOn: $toggleValue, label: {
-                Text(R.string.label.alreadyBought())
-            })
-            .onChange(of: toggleValue) {
-                toggleAction($0)
+            if isToggleDisp {
+                Toggle(isOn: $toggleValue, label: {
+                    Text(R.string.label.alreadyBought())
+                })
+                .onChange(of: toggleValue) {
+                    toggleAction($0)
+                }
             }
             
         }
