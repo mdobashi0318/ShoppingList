@@ -14,12 +14,6 @@ struct ShoppingRow: View {
     let count: Int
     
     let totalPrice: Int
-        
-    var purchaseStatus: String
-    
-    @State var toggleValue: Bool
-    
-    let toggleAction: (Bool) -> Void
     
     var body: some View {
         HStack {
@@ -29,13 +23,6 @@ struct ShoppingRow: View {
                     Text("\(count) \(R.string.label.pieces())")
                 }
                 Text("¥\(totalPrice)")
-            }
-            
-            Toggle(isOn: $toggleValue, label: {
-                Text("")
-            })
-            .onChange(of: toggleValue) {
-                toggleAction($0)
             }
         }
     }

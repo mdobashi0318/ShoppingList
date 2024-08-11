@@ -10,3 +10,6 @@
 "Delete" = "削除";
 "Close" = "閉じる";
 "Cancel" = "キャンセル";
+
+"ReturnToUnpurchased" = "未購入に戻す";
+"MarkAsPurchased" = "購入済にする";

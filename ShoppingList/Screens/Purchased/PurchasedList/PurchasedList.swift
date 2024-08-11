@@ -37,21 +37,22 @@ struct PurchasedList: View {
                                 name: item.itemName.wrappedValue,
                                 count: item.count.wrappedValue,
                                 totalPrice: item.price.wrappedValue * item.count.wrappedValue,
-                                purchaseStatus: PurchaseStatus.purchased.rawValue,
-                                toggleValue: true,
-                                toggleAction: {
-                                    viewModel.updatePurchaseStatus(shoppingId: item.shoppingId.wrappedValue,
-                                                                   purchased: $0,
-                                                                   itemId: item.itemId.wrappedValue)
-                                    viewModel.fetch()
-                                },
                                 purchaseDate: item.purchaseDate.wrappedValue
                             )
                         }
+                        .swipeActions {
+                            Button(R.string.button.returnToUnpurchased()) {
+                                viewModel.updatePurchaseStatus(shoppingId: item.shoppingId.wrappedValue,
+                                                               itemId: item.itemId.wrappedValue)
+                                viewModel.model.removeAll(where: { $0.id == item.id })
+                            }
+                        }
                     }
+                    
                 } header: {
                     Text("\(R.string.label.purchasePrice()): ¥\(viewModel.total())")
                 }
+                
             }
         }
     }

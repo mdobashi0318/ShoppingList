@@ -53,16 +53,16 @@ struct ShoppingList: View {
                         ShoppingRow(
                             name: viewModel.fetchItem(itemId: shopping.itemId.wrappedValue)?.name ?? R.string.label.notFound(),
                             count: shopping.count.wrappedValue,
-                            totalPrice: viewModel.totalPrice(shopping.wrappedValue),
-                            purchaseStatus: shopping.purchased.wrappedValue,
-                            toggleValue: shopping.purchased.wrappedValue == PurchaseStatus.purchased.rawValue,
-                            toggleAction: {
+                            totalPrice: viewModel.totalPrice(shopping.wrappedValue)
+                        )
+                        .swipeActions {
+                            Button(R.string.button.markAsPurchased()) {
                                 viewModel.updatePurchaseStatus(shoppingId: shopping.id,
-                                                               purchased: $0,
                                                                itemId: shopping.itemId.wrappedValue
                                 )
+                                viewModel.model.removeAll(where: { $0.id == shopping.id })
                             }
-                        )
+                        }
                     }
                 }
             }
