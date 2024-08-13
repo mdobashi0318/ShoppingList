@@ -23,14 +23,8 @@ struct AddShoppingScreen: View {
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     AddButton {
-                        if viewModel.mode == .add {
-                            if viewModel.validation() {
-                                viewModel.add()
-                            }
-                        } else {
-                            if viewModel.validation() {
-                                viewModel.update()
-                            }
+                        if viewModel.validation() {
+                            viewModel.mode == .add ? viewModel.add() : viewModel.update()
                         }
                     }
                 }
