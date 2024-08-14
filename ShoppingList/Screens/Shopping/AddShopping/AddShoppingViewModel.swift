@@ -25,7 +25,8 @@ class AddShoppingViewModel: ObservableObject {
     
     @Published var itemId: String = ""
     
-    @Published var inputItem = false
+    /// 作成済の商品から選択するか判定
+    @Published var isItemSelect = false
     
     @Published var alertFlag = false
     
@@ -65,7 +66,7 @@ class AddShoppingViewModel: ObservableObject {
     
     func add() {
         do {
-            if !inputItem {
+            if !isItemSelect {
                 itemId = try Item.addItem(Item(name: name, price: price))
             }
             
@@ -79,7 +80,7 @@ class AddShoppingViewModel: ObservableObject {
     }
     
     func validation() -> Bool {
-        if inputItem {
+        if isItemSelect {
             if itemId.isEmpty {
                 setAlert(type: .error, message: R.string.alertMessage.noProductsHaveBeenSelected())
                 return false
