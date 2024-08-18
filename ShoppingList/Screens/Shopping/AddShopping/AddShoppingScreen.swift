@@ -23,14 +23,8 @@ struct AddShoppingScreen: View {
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     AddButton {
-                        if viewModel.mode == .add {
-                            if viewModel.validation() {
-                                viewModel.add()
-                            }
-                        } else {
-                            if viewModel.validation() {
-                                viewModel.update()
-                            }
+                        if viewModel.validation() {
+                            viewModel.mode == .add ? viewModel.add() : viewModel.update()
                         }
                     }
                 }
@@ -95,11 +89,11 @@ struct AddShoppingScreen: View {
     @ViewBuilder
     var selectItemForm: some View {
         if viewModel.mode == .add {
-            Toggle(isOn: $viewModel.inputItem, label: {
+            Toggle(isOn: $viewModel.isItemSelect, label: {
                 Text(R.string.label.selectFromRegisteredProducts())
             })
             
-            if viewModel.inputItem {
+            if viewModel.isItemSelect {
                 Picker("", selection: $viewModel.itemId) {
                     ForEach($viewModel.model, id: \.id) { item in
                         Text(item.name.wrappedValue)

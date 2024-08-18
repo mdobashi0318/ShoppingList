@@ -34,15 +34,10 @@ class PurchasedListViewModel: ObservableObject {
     }   
     
     
-    func updatePurchaseStatus(shoppingId: String, purchased: Bool, itemId: String) {
-        try? Shopping.updatePurchaseStatus(id: shoppingId, status: purchased)
-        
-        if purchased {
-            try? PurchasedItem.addItem(shoppingId: shoppingId, itemId: itemId)
-        } else {
-            try? PurchasedItem.deleteItem(shoppingId: shoppingId)
-        }
-        
+    /// ステータスを未購入に変更し、購入済リストから削除する
+    func updatePurchaseStatus(shoppingId: String, itemId: String) {
+        try? Shopping.updatePurchaseStatus(id: shoppingId, status: false)
+        try? PurchasedItem.deleteItem(shoppingId: shoppingId)
     }
     
     

@@ -14,12 +14,6 @@ struct PurchasedItemRow: View {
     
     let totalPrice: Int
         
-    var purchaseStatus: String
-    
-    @State var toggleValue: Bool
-    
-    let toggleAction: (Bool) -> Void
-    
     let purchaseDate: String
     
     var body: some View {
@@ -32,14 +26,6 @@ struct PurchasedItemRow: View {
                 Text("¥\(totalPrice)")
                 Text("\(R.string.label.purchaseDate())\(purchaseDate)")
             }
-            Spacer()
-            Toggle(isOn: $toggleValue, label: {
-                Text("")
-            })
-            .onChange(of: toggleValue) {
-                toggleAction($0)
-            }
-            .frame(width: 50)
         }
     }
 }
