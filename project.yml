@@ -24,7 +24,7 @@ targets:
          DEVELOPMENT_TEAM: 7RPFL7EXKD
          ENABLE_PREVIEWS: YES
          INFOPLIST_FILE: ShoppingList/Info.plist
-         MARKETING_VERSION: &marketing_version 1.0.0
+         MARKETING_VERSION: &marketing_version 1.1.0
          CURRENT_PROJECT_VERSIO: 1
          PRODUCT_BUNDLE_IDENTIFIER: "masaharu.dobashi.ShoppingList"
          PRODUCT_NAME: "$(TARGET_NAME)"
