@@ -28,7 +28,9 @@ struct ShoppingList: View {
                 }
                 .task(id: addPageSheet) {
                     if !addPageSheet {
-                        viewModel.fetchModels()
+                        withAnimation {
+                            viewModel.fetchModels()
+                        }
                     }
                 }
                 .navigationTitle(R.string.naviTitle.listOfPlannedPurchases())
@@ -36,7 +38,9 @@ struct ShoppingList: View {
                     ShoppingDetailScreen(viewModel: ShoppingDetailViewModel(id: shoppingId))
                 }
                 .onAppear {
-                    viewModel.fetchModels()
+                    withAnimation {
+                        viewModel.fetchModels()
+                    }
                 }
         }
     }
@@ -60,7 +64,10 @@ struct ShoppingList: View {
                                 viewModel.updatePurchaseStatus(shoppingId: shopping.id,
                                                                itemId: shopping.itemId.wrappedValue
                                 )
-                                viewModel.model.removeAll(where: { $0.id == shopping.id })
+                                
+                                withAnimation {
+                                    viewModel.model.removeAll(where: { $0.id == shopping.id })
+                                }
                             }
                         }
                     }

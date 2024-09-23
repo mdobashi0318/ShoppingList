@@ -44,7 +44,10 @@ struct PurchasedList: View {
                             Button(R.string.button.returnToUnpurchased()) {
                                 viewModel.updatePurchaseStatus(shoppingId: item.shoppingId.wrappedValue,
                                                                itemId: item.itemId.wrappedValue)
-                                viewModel.model.removeAll(where: { $0.id == item.id })
+                                withAnimation {
+                                    viewModel.model.removeAll(where: { $0.id == item.id })
+                                }
+                                
                             }
                         }
                     }
